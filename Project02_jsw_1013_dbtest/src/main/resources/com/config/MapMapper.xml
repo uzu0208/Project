@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MapMapper">
+    <update id="loadApi" parameterType="MapDTO">
+        MERGE INTO TRAVEL T
+        USING DUAL ON (
+            T.TITLE = #{title}
+        )
+        WHEN MATCHED THEN
+            UPDATE SET
+                DESCRIPTION = #{description},
+                URL = #{url},
+                REFERENCE = #{reference},
+                SPATIALCOVERAGE = #{spatialCoverage}
+        WHEN NOT MATCHED THEN
+            INSERT (TITLE, DESCRIPTION, URL, REFERENCE, SPATIALCOVERAGE)
+            VALUES (#{title}, #{description}, #{url}, #{reference}, #{spatialCoverage})
+    </update>
+
+</mapper>
