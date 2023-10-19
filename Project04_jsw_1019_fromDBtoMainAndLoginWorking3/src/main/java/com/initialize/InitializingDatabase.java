@@ -16,13 +16,13 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 @Component
-public class InitializingDatabase{
+public class InitializingDatabase {
 
     @Autowired
     MapService service;
 
     @EventListener(ContextRefreshedEvent.class)
-    public void loadApi(){
+    public void loadApi() {
 
         try {
 
@@ -103,9 +103,9 @@ public class InitializingDatabase{
                     service.loadApi(dto);
                 }
 
-                    pageNo++;
+                pageNo++;
 
-            } while ((pageNo - 1) * numOfRows < totalCount) ;
+            } while ((pageNo - 1) * numOfRows < totalCount);
 
         } catch (Exception e) {
             e.printStackTrace();

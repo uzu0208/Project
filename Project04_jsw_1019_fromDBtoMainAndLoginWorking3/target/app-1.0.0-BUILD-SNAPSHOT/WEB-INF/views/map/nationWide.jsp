@@ -37,12 +37,6 @@
     });
 </script>
 
-<style>
-    .container{
-        background-image: linear-gradient(to left, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,1) 100%),  url("${pageContext.request.contextPath}/images/Image20231017112818.png");
-    }
-</style>
-
 <div class="container">
     <form class="box">
         <h1>What are you looking for?</h1>
