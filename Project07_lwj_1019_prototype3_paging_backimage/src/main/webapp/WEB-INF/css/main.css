@@ -1,0 +1,85 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+
+    background-size: 100 100; /* 이미지를 cover로 설정하면 배경 이미지가 요소를 덮습니다. */
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 70% 10%;
+    position: relative;
+}
+
+ 
+
+.container > .map_svg_warp_city{
+    position: relative;
+}
+
+
+form.box{
+    width: 600px;
+    position: absolute;
+    top: 30%;
+    left: 80%;
+    transform: translate(-80%, -30%);
+    color: white;
+    text-align: center;
+}
+form.box h1 {
+    font-weight: 500;
+
+}
+form.box input[type=text] { 
+     background-color: white;
+     font-size: large;
+     width: 400px;
+     height: 50px;
+     padding: 10px;
+     border-radius: 25px 0 0 25px ;
+     border: none;
+}
+form.box input[type=submit]{
+    background-color: orange;
+    width: 130px;
+    height: 70px;
+    padding: 10px;
+    border-radius:  0 25px 25px 0 ;
+    border: none;
+    margin-left: -6px;
+    font-weight: bolder;
+    font-size: large;
+}
+form.box input[type=text]::placeholder{
+    color: black;
+    font-weight: 500;
+}
+   
+
+form.login input[type=submit]{
+    background-color: beige;
+    border-color: white;
+    border-width: 5px;
+    position: absolute;
+    top: 5%;
+    left: 80%;
+}
+form.join input[type=submit]{
+    background-color: beige;
+    border-color: white;
+    border-width: 5px;
+    position: absolute;
+    top: 5%;
+    left: 85%;
+}
+    
+    
+.map_svg_warp city{
+    float: left;
+}
+
+
+
+
