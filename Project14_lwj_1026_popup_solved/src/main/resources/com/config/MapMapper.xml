@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MapMapper">
+    <update id="loadApi" parameterType="list">
+        MERGE INTO PROJECT.FASTIVAL F
+        USING (
+            SELECT *
+            FROM (
+                SELECT D.*, ROW_NUMBER() over (PARTITION BY item_fstvlNm, item_opar, item_fstvlStartDate, item_fstvlEndDate
+                    ORDER BY item_referenceDate DESC) AS DS
+                FROM (
+                    <foreach collection="list" item="item" index="index" separator="UNION" open="" close="">
+                        SELECT
+                            #{item.fstvlNm}        AS item_fstvlNm,
+                            #{item.opar}           AS item_opar,
+                            #{item.fstvlStartDate} AS item_fstvlStartDate,
+                            #{item.fstvlEndDate}   AS item_fstvlEndDate,
+                            #{item.fstvlCo}        AS item_fstvlCo,
+                            #{item.mnnst}          AS item_mnnst,
+                            #{item.auspcInstt}     AS item_auspcInstt,
+                            #{item.suprtInstt}     AS item_suprtInstt,
+                            #{item.phoneNumber}    AS item_phoneNumber,
+                            #{item.homepageUrl}    AS item_homepageUrl,
+                            #{item.relateInfo}     AS item_relateInfo,
+                            #{item.rdnmadr}        AS item_rdnmadr,
+                            #{item.lnmadr}         AS item_lnmadr,
+                            #{item.latitude}       AS item_latitude,
+                            #{item.longitude}      AS item_longitude,
+                            #{item.referenceDate}  AS item_referenceDate,
+                            #{item.insttCode}      AS item_insttCode
+                        FROM DUAL
+                    </foreach>
+                ) D
+            ) WHERE DS = 1) T
+        ON (
+            F.FSTVLNM = T.item_fstvlNm AND
+            F.OPAR = T.item_opar AND
+            F.FSTVLSTARTDATE = T.item_fstvlStartDate AND
+            F.FSTVLENDDATE = T.item_fstvlEndDate
+        )
+        WHEN MATCHED THEN
+            UPDATE SET
+                F.FSTVLCO = T.item_fstvlCo,
+                F.MNNST = T.item_mnnst,
+                F.AUSPCLNSTT = T.item_auspcInstt,
+                F.SUPRTLNSTT = T.item_suprtInstt,
+                F.PHONENUMBER = T.item_phoneNumber,
+                F.HOMEPAGEURL = T.item_homepageUrl,
+                F.RELATEINFO = T.item_relateInfo,
+                F.RDNMADR = T.item_rdnmadr,
+                F.LNMADR = T.item_lnmadr,
+                F.LATITUDE = T.item_latitude,
+                F.LONGITUDE = T.item_longitude,
+                F.REFERENCEDATE = T.item_referenceDate,
+                F.INSTT_CODE = T.item_insttCode
+        WHEN NOT MATCHED THEN
+            INSERT (FSTVLNM, OPAR, FSTVLSTARTDATE, FSTVLENDDATE, FSTVLCO, MNNST, AUSPCLNSTT, SUPRTLNSTT,
+                PHONENUMBER, HOMEPAGEURL, RELATEINFO, RDNMADR, LNMADR, LATITUDE, LONGITUDE, REFERENCEDATE,
+                INSTT_CODE)
+        VALUES (T.item_fstvlNm, T.item_opar, T.item_fstvlStartDate, T.item_fstvlEndDate,
+                    T.item_fstvlCo, T.item_mnnst, T.item_auspcInstt, T.item_suprtInstt, T.item_phoneNumber, T.item_homepageUrl,
+                    T.item_relateInfo, T.item_rdnmadr, T.item_lnmadr, T.item_latitude, T.item_longitude, T.item_referenceDate,
+                    T.item_insttCode)
+    </update>
+
+    <insert id="insertApi" parameterType="MapDTO">
+        INSERT INTO FASTIVAL(FSTVLNM, OPAR, FSTVLSTARTDATE, FSTVLENDDATE, FSTVLCO, MNNST, AUSPCLNSTT, SUPRTLNSTT,
+                             PHONENUMBER, HOMEPAGEURL, RELATEINFO, RDNMADR, LNMADR, LATITUDE, LONGITUDE,
+                             REFERENCEDATE, INSTT_CODE)
+        VALUES (#{fstvlNm}, #{opar}, #{fstvlStartDate}, #{fstvlEndDate}, #{fstvlCo},
+                #{mnnst}, #{auspcInstt}, #{suprtInstt}, #{phoneNumber}, #{homepageUrl}, #{relateInfo},
+                #{rdnmadr}, #{lnmadr}, #{latitude}, #{longitude}, #{referenceDate}, #{insttCode})
+    </insert>
+    
+    <select id="findAll" resultType="MapDTO" parameterType="hashmap">
+    	select fstvlNm, opar, fstvlStartDate, fstvlEndDate, fstvlCo, phoneNumber, homepageUrl
+    	from fastival
+    	where rdnmadr like '%' || #{province} || '%' || #{city} || '%' 
+    	   OR lnmadr like '%' || #{province} || '%' || #{city} || '%' 
+    </select>
+
+	<select id="counting" resultType="int" parameterType="hashmap">
+		select count(*)
+		from fastival
+    	where rdnmadr like '%' || #{province} || '%' || #{city} || '%' 
+    	   OR lnmadr like '%' || #{province} || '%' || #{city} || '%' 
+	</select>
+
+</mapper>
