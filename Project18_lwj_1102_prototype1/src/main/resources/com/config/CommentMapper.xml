@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CommentMapper">
+    
+    <insert id="insertComment" parameterType="CommentDTO">
+        INSERT INTO REPLY (RNO, FSTVLNM, OPAR, FSTVLSTARTDATE, FSTVLENDDATE, WRITEDATE, COMMENTS, RID, RNAME)
+        VALUES (reply_seq.nextval , #{fstvlNm}, #{opar}, to_date(substr(#{fstvlStartDate}, 1, 10), 'YYYY-MM-DD'), 
+        to_date(substr(#{fstvlEndDate}, 1, 10), 'YYYY-MM-DD'), sysdate , #{comments}, #{rid}, #{rname})
+    </insert>
+    
+    <select id="counting" resultType="int" parameterType="hashmap">
+		select count(*)
+		from reply 
+		where FSTVLNM = #{fstvlNm} and OPAR = #{opar} and FSTVLSTARTDATE = to_date(substr(#{fstvlStartDate}, 1, 10), 'YYYY-MM-DD') 
+		and FSTVLENDDATE = to_date(substr(#{fstvlEndDate}, 1, 10), 'YYYY-MM-DD')
+	</select>
+	
+	<select id="findAll" resultType="CommentDTO" parameterType="hashmap">
+    	select rno, fstvlNm, opar, fstvlStartDate, fstvlEndDate, writedate, comments, rid, rname
+    	from reply
+    	where FSTVLNM = #{fstvlNm} and OPAR = #{opar} and FSTVLSTARTDATE = to_date(substr(#{fstvlStartDate}, 1, 10), 'YYYY-MM-DD') 
+		and FSTVLENDDATE = to_date(substr(#{fstvlEndDate}, 1, 10), 'YYYY-MM-DD')
+		ORDER BY writedate desc
+    </select>
+    
+    <delete id="deleteComment" parameterType="string">
+    	delete reply
+    	where rno = #{rno}
+    </delete>
+
+</mapper>
