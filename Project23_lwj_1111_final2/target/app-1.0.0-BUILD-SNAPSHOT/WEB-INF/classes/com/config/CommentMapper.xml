@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CommentMapper">
+    
+    <insert id="insertComment" parameterType="CommentDTO">
+        INSERT INTO REPLY (RNO, FSTVLNM, OPAR, FSTVLSTARTDATE, FSTVLENDDATE, WRITEDATE, COMMENTS, RID, RNAME)
+        VALUES (reply_seq.nextval , #{fstvlNm}, #{opar}, to_date(substr(#{fstvlStartDate}, 1, 10), 'YYYY-MM-DD'), 
+        to_date(substr(#{fstvlEndDate}, 1, 10), 'YYYY-MM-DD'), sysdate , #{comments}, #{rid}, #{rname})
+    </insert>
+    
+    <select id="counting" resultType="int" parameterType="hashmap">
+		select count(*)
+		from reply 
+		where FSTVLNM = #{fstvlNm} and OPAR = #{opar} and FSTVLSTARTDATE = to_date(substr(#{fstvlStartDate}, 1, 10), 'YYYY-MM-DD') 
+		and FSTVLENDDATE = to_date(substr(#{fstvlEndDate}, 1, 10), 'YYYY-MM-DD')
+	</select>
+	
+	<select id="findAll" resultType="CommentDTO" parameterType="hashmap">
+    	select rno, fstvlNm, opar, fstvlStartDate, fstvlEndDate, writedate, comments, rid, rname
+    	from reply
+    	where FSTVLNM = #{fstvlNm} and OPAR = #{opar} and FSTVLSTARTDATE = to_date(substr(#{fstvlStartDate}, 1, 10), 'YYYY-MM-DD') 
+		and FSTVLENDDATE = to_date(substr(#{fstvlEndDate}, 1, 10), 'YYYY-MM-DD')
+		ORDER BY writedate desc
+    </select>
+    
+    <delete id="deleteComment" parameterType="string">
+    	delete reply
+    	where rno = #{rno}
+    </delete>
+    
+    <select id="findUserReply" resultType="CommentDTO"  >
+    	select rno, fstvlNm, opar, fstvlStartDate, fstvlEndDate, writedate, comments, rid, rname
+    	from reply
+    </select>
+    
+     <select id="u_counting" resultType="int">
+		select count(*)
+		from reply 
+	</select>
+	
+	<select id="userid_counting" resultType="int" parameterType="string">
+		select count(*)
+		from reply
+		where rid = #{userid}
+	</select>
+	
+	<select id="findUseridReply" resultType="CommentDTO" parameterType="string" >
+    	select rno, fstvlNm, opar, fstvlStartDate, fstvlEndDate, writedate, comments, rid, rname
+    	from reply
+    	where rid = #{userid}
+    </select>
+    
+    <select id="s_counting" resultType="int" parameterType="hashmap">
+		select count(*)
+		from reply 
+		<choose>
+	<when test="option == 'rno'">
+		where rno like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'rid'">
+		where rid like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'rname'">
+		where rname like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'writedate'">
+		where writedate = TO_DATE(#{contents} , 'YYYY-MM-DD HH24:MI:SS')
+	</when>
+	<when test="option == 'comments'">
+		where comments like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'fstvlNm'">
+		where fstvlNm like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'opar'">
+		where opar like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'fstvlStartDate'"> 
+		WHERE fstvlStartDate = TO_DATE(#{contents} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	</when>
+	<when test="option == 'fstvlEndDate'">
+		where fstvlEndDate  = TO_DATE(#{contents} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	</when>
+		</choose>
+	</select>
+    
+    <select id="findSelectedReply" resultType="CommentDTO" parameterType="hashmap" >
+    	select rno, fstvlNm, opar, fstvlStartDate, fstvlEndDate, writedate, comments, rid, rname
+    	from reply
+  		<choose>
+	<when test="option == 'rno'">
+		where rno like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'rid'">
+		where rid like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'rname'">
+		where rname like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'writedate'">
+		where writedate = TO_DATE(#{contents} , 'YYYY-MM-DD HH24:MI:SS')
+	</when>
+	<when test="option == 'comments'">
+		where comments like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'fstvlNm'">
+		where fstvlNm like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'opar'">
+		where opar like '%' || #{contents} || '%'
+	</when>
+	<when test="option == 'fstvlStartDate'"> 
+		WHERE fstvlStartDate = TO_DATE(#{contents} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	</when>
+	<when test="option == 'fstvlEndDate'">
+		where fstvlEndDate  = TO_DATE(#{contents} || ' 00:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	</when>
+		</choose>
+    </select>
+	
+</mapper>
