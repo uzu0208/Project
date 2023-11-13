@@ -1,0 +1,172 @@
+header {
+	width: 100%;
+	max-width: 100%;
+	height: 250px; /*height는 가변크기가 아니라 절대크기로 지정 and 조건별(화면크기)로 처리하는것이 일반적 https://www.nextree.co.kr/p8622/*/
+	align-items: center;
+}
+
+header > h1{
+
+	position: fixed;
+	color:white;
+	top: 100px;
+	margin-left: 15%;
+	font-family: 'Do Hyeon', sans-serif;
+	font-size: 100px;
+}
+
+.blank_top {
+	width: 100%;
+	height: 2rem;
+}
+
+#logo{
+	font-family: 'Do Hyeon', sans-serif;
+	font-weight: bold;
+	font-size: 25px;
+	color: #6c757d;
+	line-height: 3;
+}
+
+header.masthead {
+	text-align: center;
+	color: #fff;
+	position: relative;
+	background-image: url("../images/Image20231017112818.jpg");
+	background-color: rgba(0, 0, 0, 0.25); /* 투명도가 있는 검은색 */
+	background-blend-mode : overlay; background-repeat : no-repeat;
+	background-attachment : scroll;
+	background-position: center center;
+	background-size: cover; /* 변경된 부분 */
+	background-repeat: no-repeat;
+	background-attachment: scroll;
+	background-blend-mode: overlay;
+	filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5)); /* 그림자 효과 */
+}
+
+header.masthead img {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+
+
+#maintable {
+	text-align: left;
+	position: relative;
+
+}
+
+#mainTableContainer{
+	top: 50px;
+	margin-right: 15%;
+}
+
+#map_svg_city {
+	width: 600px;
+	height: 600px;
+	position: fixed; /* 요소가 자신의 위치에 상대적으로 이동하도록 설정 */
+	top: 320px;
+	left: 16%;
+	filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5)); /* 그림자 효과 */
+}
+
+.navbar-nav {
+	display: flex;
+	gap: 10px; /* 각 요소 사이의 간격을 조절합니다. */
+}
+
+.itemcontainer {
+	display: flex;
+	align-items: center;
+	font-family: 'Noto Sans KR', sans-serif;
+	background-color: #f8f9fa;
+	min-height: 650px;
+}
+
+.col-lg-4.col-md-12 {
+	margin-left: 20px;
+}
+
+h2 {
+	position: fixed;
+	top: 340px;
+	left: 370px;
+}
+
+td>#contentBox {
+	border-radius: 15px;
+	width: 500px;
+	height: 120px;
+	padding: 20px 30px 30px 50px;
+	font-family: 'Noto Sans KR', sans-serif;
+
+}
+
+/* 이하는 전부 팝업 css */
+.wrap {
+	padding: 10px;
+}
+
+.btn_open {
+	font-weight: bold;
+	color: #1e90ff;
+}
+
+.pop_wrap {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, .5);
+	font-size: 0;
+	text-align: center;
+
+}
+
+.pop_wrap:after {
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+	content: '';
+}
+
+.pop_wrap .pop_inner {
+	display: inline-block;
+	border-radius: 15px;
+	background: white;
+	padding: 40px 40px 40px 40px;
+	width: 800px;
+	height: 700px;
+	vertical-align: middle;
+	font-size: 15px;
+	text-align: center;
+	line-height: 15px;
+}
+
+.pop_inner>.dsc {
+	vertical-align: middle;
+}
+
+.btn_close {
+	text-align: center;
+	border-radius: 5px; font-size: 10px;
+	position: fixed;
+	top: 720px;
+}
+
+#commenttable {
+	margin: 0 auto;
+}
+
+#contentBox .btn_open{
+	font-family: 'Noto Serif KR', serif;
+	font-size: large;
+}
+
+#contentBox2 {
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+

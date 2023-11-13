@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberMapper">
+    <select id="idCheck" parameterType="string" resultType="MemberDTO">
+        SELECT USERID, USERNAME, POST, ADDR1, ADDR2, PHONE1, PHONE2, PHONE3, EMAIL1, EMAIL2, ISADMIN
+        FROM MEMBER
+        WHERE USERID = #{userid}
+    </select>
+
+    <insert id="memberAdd" parameterType="MemberDTO">
+        INSERT INTO MEMBER (USERID, PASSWORD, USERNAME, POST, ADDR1, ADDR2, PHONE1, PHONE2, PHONE3, EMAIL1, EMAIL2)
+        VALUES (#{userid} , #{password}, #{username}, #{post}, #{addr1}, #{addr2}, #{phone1}, #{phone2}, #{phone3}, #{email1}, #{email2})
+    </insert>
+
+    <select id="checkDuplicatedEmail" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE EMAIL1 = #{email1} AND EMAIL2 = #{email2}
+    </select>
+
+    <select id="login" parameterType="hashmap" resultType="MemberDTO">
+        SELECT USERID, USERNAME, POST, ADDR1, ADDR2, PHONE1, PHONE2, PHONE3, EMAIL1, EMAIL2, ISADMIN
+        FROM MEMBER
+        WHERE USERID = #{userid}
+    </select>
+
+    <select id="mypage" parameterType="string" resultType="MemberDTO">
+        SELECT USERID, USERNAME, POST, ADDR1, ADDR2, PHONE1, PHONE2, PHONE3, EMAIL1, EMAIL2, ISADMIN
+        FROM MEMBER
+        WHERE USERID = #{userid}
+    </select>
+
+    <select id="memberAll">
+        SELECT USERID, USERNAME, POST, ADDR1, ADDR2, PHONE1, PHONE2, PHONE3, EMAIL1, EMAIL2, ISADMIN
+        FROM MEMBER
+    </select>
+
+    <update id="isAdminUpdate" parameterType="string">
+        UPDATE MEMBER
+        SET ISADMIN = #{isAdmin}
+        WHERE USERID = #{userid}
+    </update>
+    
+    <update id="memberPasswordUpdate" parameterType="map">
+        UPDATE MEMBER
+        SET PASSWORD = #{password}
+        WHERE USERID = #{userid}
+    </update>
+
+    <update id="updateMemberInfo" parameterType="map">
+        UPDATE MEMBER
+        SET USERNAME = #{username}, POST = #{post}, ADDR1 = #{addr1}, ADDR2 = #{addr2}, PHONE1 = #{phone1},
+            PHONE2 = #{phone2}, PHONE3 = #{phone3}
+        WHERE USERID = #{userid}
+    </update>
+
+    <select id="checkPassword" parameterType="string" resultType="string">
+        SELECT PASSWORD
+        FROM MEMBER
+        WHERE USERID = #{userid}
+    </select>
+
+    <select id="checkEmailDuplicate" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM MEMBER
+        WHERE EMAIL1 = #{email1} AND EMAIL2 = #{email2}
+    </select>
+
+    <update id="deleteEmailKey" parameterType="map">
+        UPDATE MAIL
+        SET MALIKEY = NULL
+        WHERE EMAIL1 = #{email1} AND EMAIL2 = #{email2} AND MAILAUTH = 1
+    </update>
+
+    <delete id="deleteMember" parameterType="string">
+        DELETE MEMBER
+        WHERE USERID = #{userid}
+    </delete>
+</mapper>
